@@ -6,12 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.jverb.androidweartest.MainActivity"
-    tools:deviceIds="wear">
-
-    <Button
-        android:id="@+id/btn_test"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Send message"/>
+    tools:deviceIds="wear"
+    android:keepScreenOn="true">
 
 </android.support.wearable.view.BoxInsetLayout>

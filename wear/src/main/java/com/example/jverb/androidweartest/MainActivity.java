@@ -26,10 +26,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends WearableActivity implements SensorEventListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
-    private Button btnTest;
     private GoogleApiClient mGoogleApiClient;
-    private static final long CONNECTION_TIME_OUT_MS = 100;
-    private String nodeId;
     private Node mNode;
     public static final String TAG = "WearApp";
 
@@ -40,7 +37,6 @@ public class MainActivity extends WearableActivity implements SensorEventListene
     private SensorManager mSensorManager;
     private Sensor accelerometer;
     private Sensor magnetomer;
-    private Sensor gyroscope;
 
 
     @Override
@@ -51,55 +47,6 @@ public class MainActivity extends WearableActivity implements SensorEventListene
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         accelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         magnetomer = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-        gyroscope = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
-        Log.d(TAG, "testing - 1");
-        /*SensorEventListener sensorEventListener = new SensorEventListener() {
-            @Override
-            public void onSensorChanged(SensorEvent sensorEvent) {
-                float azimuth_angle = sensorEvent.values[0];
-                float pitch_angle = sensorEvent.values[1];
-                float roll_angle = sensorEvent.values[2];
-                Log.d("azimuth_angle", Float.toString(azimuth_angle));
-                Log.d("pitch_angle", Float.toString(pitch_angle));
-                Log.d("roll_angle", Float.toString(roll_angle));
-
-
-                if (mNode != null && mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
-                    Wearable.MessageApi.sendMessage(
-                            mGoogleApiClient, mNode.getId(), Float.toString(azimuth_angle), null
-                    );
-                }
-            }
-
-            @Override
-            public void onAccuracyChanged(Sensor sensor, int i) {
-
-            }
-        };*/
-        Log.d(TAG, "testing - 2");
-
-        Log.d(TAG, "testing - 2.5");
-        btnTest = (Button) findViewById(R.id.btn_test);
-        btnTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mNode != null && mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
-                    Log.d(TAG, "-- " + mGoogleApiClient.isConnected());
-                    Wearable.MessageApi.sendMessage(
-                            mGoogleApiClient, mNode.getId(), "boodschap", null
-                    ).setResultCallback(
-                            new ResultCallback<MessageApi.SendMessageResult>() {
-                                @Override
-                                public void onResult(@NonNull MessageApi.SendMessageResult sendMessageResult) {
-                                    if (!sendMessageResult.getStatus().isSuccess()) {
-                                        Log.d(TAG, "Failed to send message");
-                                    }
-                                }
-                            }
-                    );
-                }
-            }
-        });
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(Wearable.API)
@@ -111,12 +58,6 @@ public class MainActivity extends WearableActivity implements SensorEventListene
     @Override
     protected void onStart() {
         super.onStart();
-        mGoogleApiClient.connect();
-        Log.d(TAG, "resumed");
-        mSensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-        mSensorManager.registerListener(this, magnetomer, SensorManager.SENSOR_DELAY_NORMAL);
-        mSensorManager.registerListener(this, gyroscope, SensorManager.SENSOR_DELAY_NORMAL);
-        Log.d(TAG, "testing - 3");
     }
 
     @Override
@@ -144,20 +85,6 @@ public class MainActivity extends WearableActivity implements SensorEventListene
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        /*float azimuth_angle = event.values[0];
-        float pitch_angle = event.values[1];
-        float roll_angle = event.values[2];
-        Log.d("azimuth_angle", Float.toString(azimuth_angle));
-        Log.d("pitch_angle", Float.toString(pitch_angle));
-        Log.d("roll_angle", Float.toString(roll_angle));
-
-
-        if (mNode != null && mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
-            Wearable.MessageApi.sendMessage(
-                    mGoogleApiClient, mNode.getId(), Float.toString(azimuth_angle), null
-            );
-        }*/
-
         if (mNode == null)
             return;
         if (mNode.getId() == null)
@@ -193,14 +120,7 @@ public class MainActivity extends WearableActivity implements SensorEventListene
         byteBuffer.putFloat(roll);
         final byte[] data = byteBuffer.array();
         Wearable.MessageApi.sendMessage(mGoogleApiClient, node,
-                "WEAR_ORIENTATION", data).setResultCallback(new ResultCallback<MessageApi.SendMessageResult>() {
-            @Override
-            public void onResult(@NonNull MessageApi.SendMessageResult sendMessageResult) {
-                if (!sendMessageResult.getStatus().isSuccess()) {
-                    Log.e(TAG, "Couldn't send message: " + sendMessageResult);
-                }
-            }
-        });
+                "WEAR_ORIENTATION", data);
     }
 
     @Override
@@ -211,7 +131,10 @@ public class MainActivity extends WearableActivity implements SensorEventListene
     @Override
     protected void onResume() {
         super.onResume();
-        //mGoogleApiClient.connect();
+        mGoogleApiClient.connect();
+        Log.d(TAG, "resumed");
+        mSensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_FASTEST);
+        mSensorManager.registerListener(this, magnetomer, SensorManager.SENSOR_DELAY_FASTEST);
     }
 
     @Override
