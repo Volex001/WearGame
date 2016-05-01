@@ -14,15 +14,7 @@ public class WearListCallListenerService extends WearableListenerService {
 
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
-        //super.onMessageReceived(messageEvent);
-        byte[] payload = messageEvent.getData();
-        ByteBuffer byteBuffer = ByteBuffer.wrap(payload);
-        float azimuth = byteBuffer.getFloat();
-        float pitch = byteBuffer.getFloat();
-        float roll = byteBuffer.getFloat();
-
-        String message = azimuth + " " + pitch + " " + roll;
-
-        Log.d("resultaat:", message);
+        if (MainActivity.instance != null)
+            MainActivity.instance.onMessageReceived(messageEvent);
     }
 }
