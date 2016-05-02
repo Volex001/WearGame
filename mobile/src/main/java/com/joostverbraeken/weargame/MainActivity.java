@@ -1,8 +1,7 @@
-package com.example.jverb.androidweartest;
+package com.joostverbraeken.weargame;
 
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +14,8 @@ import com.google.android.gms.wearable.Wearable;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.wearable.DataApi.DataListener;
+import com.unity3d.player.UnityPlayer;
+import com.unity3d.player.UnityPlayerActivity;
 
 import java.nio.ByteBuffer;
 
@@ -92,5 +93,7 @@ public class MainActivity extends AppCompatActivity implements OnConnectionFaile
         String message = azimuth + " " + pitch + " " + roll;
 
         Log.d("resultaat:", message);
+
+        //UnityPlayer.UnitySendMessage("Wrist", "WearOrientationChanged", message);
     }
 }

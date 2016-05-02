@@ -1,11 +1,7 @@
-package com.example.jverb.androidweartest;
-
-import android.util.Log;
+package com.joostverbraeken.weargame;
 
 import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.WearableListenerService;
-
-import java.nio.ByteBuffer;
 
 /**
  * Created by jverb on 4/28/2016.

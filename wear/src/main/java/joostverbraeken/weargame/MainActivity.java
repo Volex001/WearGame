@@ -1,4 +1,6 @@
-package com.joostverbraeken.weargame;
+package joostverbraeken.weargame;
+import com.joostverbraeken.weargame.R;
+
 
 import android.content.Context;
 import android.hardware.Sensor;
