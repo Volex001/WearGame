@@ -1,11 +1,10 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "com.joostverbraeken.weargame"
         minSdkVersion 21
         targetSdkVersion 23
         versionCode 1
@@ -20,12 +19,11 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile fileTree(dir: 'libs', include: ['*.jar'], exclude: ['classes.jar'])
+    provided files('libs/classes.jar')
     wearApp project(':wear')
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.google.android.gms:play-services:8.4.0'
     compile 'com.android.support:support-v4:23.3.0'
     wearApp project(':wear')
-    compile files('libs/classes.jar')
+    compile project(':weargamelib')
 }

@@ -19,10 +19,9 @@ import com.unity3d.player.UnityPlayerActivity;
 
 import java.nio.ByteBuffer;
 
-public class MainActivity extends AppCompatActivity implements OnConnectionFailedListener, ConnectionCallbacks, DataListener {
+public class MainActivity extends UnityPlayerActivity implements OnConnectionFailedListener, ConnectionCallbacks, DataListener {
     private final String TAG = "MyApp";
     private GoogleApiClient mGoogleApiClient;
-    private Button btnConnect;
     public static MainActivity instance;
 
     @Override
@@ -31,14 +30,7 @@ public class MainActivity extends AppCompatActivity implements OnConnectionFaile
 
         instance = this;
 
-        setContentView(R.layout.activity_main);
-
-        btnConnect = (Button) findViewById(R.id.btn_connect);
-        btnConnect.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                mGoogleApiClient.connect();
-            }
-        });
+        //setContentView(R.layout.activity_main);
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -94,6 +86,6 @@ public class MainActivity extends AppCompatActivity implements OnConnectionFaile
 
         Log.d("resultaat:", message);
 
-        //UnityPlayer.UnitySendMessage("Wrist", "WearOrientationChanged", message);
+        UnityPlayer.UnitySendMessage("Wrist", "WearOrientationChanged", message);
     }
 }

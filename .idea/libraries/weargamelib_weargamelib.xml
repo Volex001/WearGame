@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="weargamelib.weargamelib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/weargamelib/build/libs/weargamelib.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

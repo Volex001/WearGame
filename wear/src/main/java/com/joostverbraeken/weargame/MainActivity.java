@@ -1,4 +1,4 @@
-package joostverbraeken.weargame;
+package com.joostverbraeken.weargame;
 import com.joostverbraeken.weargame.R;
 
 
